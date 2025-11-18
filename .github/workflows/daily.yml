@@ -29,8 +29,13 @@ jobs:
           echo "MAIL_SEND_ENABLED=${{ secrets.MAIL_SEND_ENABLED }}" >> $GITHUB_ENV
           echo "MAIL_HOST=${{ secrets.MAIL_HOST }}" >> $GITHUB_ENV
           echo "MAIL_PORT=${{ secrets.MAIL_PORT }}" >> $GITHUB_ENV
-          echo "MAIL_USER=${{ secrets.MAIL_USER }}" >> $GITHUB_ENV
-          echo "MAIL_PASS=${{ secrets.MAIL_PASS }}" >> $GITHUB_ENV
+          echo "MAIL_USER=${{ secrets.EMAIL_USER }}" >> $GITHUB_ENV
+          echo "MAIL_PASS=${{ secrets.EMAIL_PASS }}" >> $GITHUB_ENV
+          echo "MAIL_PASS=${{ secrets.EMAIL_CC }}" >> $GITHUB_ENV
+          echo "MAIL_PASS=${{ secrets.EMAIL_TO }}" >> $GITHUB_ENV
+          echo "MAIL_PASS=${{ secrets.EMAIL_TO }}" >> $GITHUB_ENV
+          echo "MAIL_PASS=${{ secrets.EXPORT_FORMAT }}" >> $GITHUB_ENV
+          echo "MAIL_PASS=${{ secrets.EXPORT_FORMAT }}" >> $GITHUB_ENV
 
 
       # -----------------------------

@@ -56,8 +56,8 @@ jobs:
       # -----------------------------
       # Run your script
       # -----------------------------
-      - name: Run cron script
-        run: node cron.js
+      - name: Run script
+        run: npm start
 
       # -----------------------------
       # Finished

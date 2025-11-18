@@ -34,6 +34,8 @@ jobs:
           echo "EMAIL_CC=${{ secrets.EMAIL_CC }}" >> $GITHUB_ENV
           echo "EMAIL_TO=${{ secrets.EMAIL_TO }}" >> $GITHUB_ENV
           echo "EXPORT_FORMAT=${{ secrets.EXPORT_FORMAT }}" >> $GITHUB_ENV
+          echo "COLLECTION_NAME=${{ secrets.COLLECTION_NAME }}" >> $GITHUB_ENV
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
 
 
       # -----------------------------

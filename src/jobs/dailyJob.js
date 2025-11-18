@@ -11,7 +11,7 @@ async function cronJob() {
         console.log("Cron job started...");
         
         // Fetch query result
-        const result = await fetchUniplyData("studentprofiles", query)
+        const result = await fetchUniplyData(config.collectionName, query)
         if (result.length === 0){
             console.log("No data found");
             return

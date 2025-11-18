@@ -13,6 +13,8 @@ const requiredEnvVars = [
     'MAIL_SEND_ENABLED',
     'MAIL_HOST',
     'MAIL_PORT',
+    'DB_NAME',
+    'COLLECTION_NAME',
 ]
 
 for (const key of requiredEnvVars) {
@@ -38,6 +40,8 @@ const config = {
     serverStorage: process.env.SERVER_STORAGE === "true",
     cronJobEnabled: process.env.CRON_JOB_ENABLED === "true",
     mailSendEnabled: process.env.MAIL_SEND_ENABLED === "true",
+    dbName: process.env.DB_NAME,
+    collectionName: process.env.COLLECTION_NAME,
 }
 
 export default config;

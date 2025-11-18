@@ -1,35 +1,66 @@
-name: Daily MongoDB Report
+name: Daily Cron Job
 
 on:
   schedule:
+    # Every 1 minute for testing — change later
     - cron: "*/1 * * * *"
-  workflow_dispatch: {}
+
+  workflow_dispatch:
 
 jobs:
-  run-report:
-    if: ${{ secrets.CRON_JOB_ENABLED == 'true' }}
+  run-cron:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      # -----------------------------
+      # Load repo
+      # -----------------------------
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      # -----------------------------
+      # Export secrets into env
+      # -----------------------------
+      - name: Load secrets into env
+        run: |
+          echo "CRON_JOB_ENABLED=${{ secrets.CRON_JOB_ENABLED }}" >> $GITHUB_ENV
+          echo "SERVER_STORAGE=${{ secrets.SERVER_STORAGE }}" >> $GITHUB_ENV
+          echo "MAIL_SEND_ENABLED=${{ secrets.MAIL_SEND_ENABLED }}" >> $GITHUB_ENV
+
+      # -----------------------------
+      # Check if CRON is enabled
+      # -----------------------------
+      - name: Print cron status
+        run: echo "CRON_JOB_ENABLED = $CRON_JOB_ENABLED"
+
+      # -----------------------------
+      # Stop job if CRON disabled
+      # -----------------------------
+      - name: Stop if disabled
+        if: env.CRON_JOB_ENABLED != 'true'
+        run: |
+          echo "Cron is disabled. Stopping job."
+          exit 0
+
+      # -----------------------------
+      # Install Node dependencies
+      # -----------------------------
+      - name: Install Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "18"
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run Script
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
-          EMAIL_TO: ${{ secrets.EMAIL_TO }}
-          EMAIL_CC: ${{ secrets.EMAIL_CC }}
-          EXPORT_FORMAT: csv
-          SERVER_STORAGE: ${{ secrets.SERVER_STORAGE }}
-          MAIL_SEND_ENABLED: ${{ secrets.MAIL_SEND_ENABLED }}
-        run: npm start
+      # -----------------------------
+      # Run your script
+      # -----------------------------
+      - name: Run cron script
+        run: node cron.js
+
+      # -----------------------------
+      # Finished
+      # -----------------------------
+      - name: Done
+        run: echo "Cron job finished successfully"

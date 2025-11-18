@@ -2,7 +2,7 @@ name: Daily MongoDB Report
 
 on:
   schedule:
-    - cron: "30 1 * * *"
+    - cron: "* * * * *"
   workflow_dispatch: {}
 
 jobs:

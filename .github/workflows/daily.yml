@@ -1,0 +1,35 @@
+name: Daily MongoDB Report
+
+on:
+  schedule:
+    - cron: "30 1 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  run-report:
+    if: ${{ secrets.CRON_JOB_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Script
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          EMAIL_CC: ${{ secrets.EMAIL_CC }}
+          EXPORT_FORMAT: csv
+          SERVER_STORAGE: ${{ secrets.SERVER_STORAGE }}
+          MAIL_SEND_ENABLED: ${{ secrets.MAIL_SEND_ENABLED }}
+        run: npm start

@@ -42,7 +42,7 @@ jobs:
 
 
       - name: Stop if disabled
-        if: env.CRON_JOB_ENABLED != 'true'
+        if: env.CRON_JOB_ENABLED != true
         run: |
           echo "Cron is disabled. Stopping job."
           exit 0

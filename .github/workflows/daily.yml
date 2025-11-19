@@ -10,17 +10,15 @@ on:
 jobs:
   run-cron:
     runs-on: ubuntu-latest
+    env:
+      CRON_JOB_ENABLED: ${{ secrets.CRON_JOB_ENABLED }}
 
     steps:
-      # -----------------------------
       # Load repo
-      # -----------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # -----------------------------
       # Export secrets into env
-      # -----------------------------
       - name: Load secrets into env
         run: |
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
@@ -38,25 +36,19 @@ jobs:
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
 
 
-      # -----------------------------
       # Check if CRON is enabled
-      # -----------------------------
       - name: Print cron status
         run: echo "CRON_JOB_ENABLED = $CRON_JOB_ENABLED"
 
-      # -----------------------------
-      # Stop job if CRON disabled
-      # -----------------------------
+
       - name: Stop if disabled
-        if: ${{ secrets.CRON_JOB_ENABLED != 'true' }}
+        if: env.CRON_JOB_ENABLED != 'true'
         run: |
           echo "Cron is disabled. Stopping job."
           exit 0
 
 
-      # -----------------------------
       # Install Node dependencies
-      # -----------------------------
       - name: Install Node
         uses: actions/setup-node@v4
         with:
@@ -65,14 +57,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # -----------------------------
+
       # Run your script
-      # -----------------------------
       - name: Run script
         run: npm start
 
-      # -----------------------------
       # Finished
-      # -----------------------------
       - name: Done
         run: echo "Cron job finished successfully"

@@ -2,8 +2,8 @@ name: Daily Cron Job
 
 on:
   schedule:
-    # Every 1 minute for testing — change later
-    - cron: "*/10 * * * *"
+    # 1 day interval at 6pm Indian Standard Time
+    - cron: '0 12 * * *' # UTC time for 6:30 PM IST
 
   workflow_dispatch:
 
@@ -42,7 +42,7 @@ jobs:
 
 
       - name: Stop if disabled
-        if: env.CRON_JOB_ENABLED != true
+        if: env.CRON_JOB_ENABLED != 'true'
         run: |
           echo "Cron is disabled. Stopping job."
           exit 0

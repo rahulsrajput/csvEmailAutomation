@@ -15,6 +15,7 @@ const requiredEnvVars = [
     'MAIL_PORT',
     'DB_NAME',
     'COLLECTION_NAME',
+    'EMAIL_CC'
 ]
 
 for (const key of requiredEnvVars) {

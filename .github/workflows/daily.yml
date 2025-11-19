@@ -48,10 +48,11 @@ jobs:
       # Stop job if CRON disabled
       # -----------------------------
       - name: Stop if disabled
-        if: env.CRON_JOB_ENABLED != 'true'
+        if: ${{ secrets.CRON_JOB_ENABLED != 'true' }}
         run: |
           echo "Cron is disabled. Stopping job."
           exit 0
+
 
       # -----------------------------
       # Install Node dependencies
